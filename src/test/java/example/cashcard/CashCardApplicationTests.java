@@ -16,7 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@WithMockUser
+//@WithMockUser
 class CashCardApplicationTests {
 
     @Autowired
@@ -38,6 +38,7 @@ class CashCardApplicationTests {
 
     @Test
     @DirtiesContext
+    @WithMockUser(username = "sarah1")
     void shouldCreateANewCashCard() throws Exception {
         String location = mockMvc.perform(post("/cashcards")
                         .with(csrf())
@@ -59,6 +60,7 @@ class CashCardApplicationTests {
     }
 
     @Test
+    @WithMockUser(username = "sarah1")
     void shouldReturnAllCashCardsWhenListIsRequested() throws Exception {
         mockMvc.perform(get("/cashcards"))
                 .andExpect(jsonPath("$.length()").value(3))

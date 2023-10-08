@@ -1,0 +1,35 @@
+version: '3.9'
+
+networks:
+  spring-app-tier:
+    driver: bridge
+
+services:
+  keycloak-db:
+    image: bitnami/postgresql:latest
+    container_name: keycloak-db
+    environment:
+      POSTGRESQL_DATABASE: keycloak
+      POSTGRESQL_USERNAME: keycloak
+      POSTGRESQL_PASSWORD: keycloak-pass
+    ports:
+      - "5432:5432"
+    networks:
+      - spring-app-tier
+
+  keycloak:
+    image: bitnami/keycloak:latest
+    container_name: keycloak
+    environment:
+      KEYCLOAK_ADMIN_USER: admin
+      KEYCLOAK_ADMIN_PASSWORD: password
+      KEYCLOAK_DATABASE_HOST: keycloak-db
+      KEYCLOAK_DATABASE_NAME: keycloak
+      KEYCLOAK_DATABASE_USER: keycloak
+      KEYCLOAK_DATABASE_PASSWORD: keycloak-pass
+    ports:
+      - "8080:8080"
+    depends_on:
+      - keycloak-db
+    networks:
+      - spring-app-tier
