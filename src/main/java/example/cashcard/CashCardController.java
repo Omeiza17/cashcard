@@ -1,6 +1,7 @@
 package example.cashcard;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -33,6 +34,7 @@ public class CashCardController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('client_admin')")
     public ResponseEntity<Iterable<CashCard>> findAll(@CurrentOwner String owner) {
         var filtered = cashCardRepository.findAllByOwner(owner);
         return ResponseEntity.ok(filtered);

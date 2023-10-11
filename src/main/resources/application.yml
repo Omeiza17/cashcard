@@ -12,6 +12,7 @@ spring:
         jwt:
           auth:
             converter:
+              resourceId: cashcard-api
               principal-attributes: preferred_username
           issuer-uri: http://localhost:8080/realms/spring-auth
           jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
